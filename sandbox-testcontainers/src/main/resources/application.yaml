@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: sandbox-testcontainers
+  sql:
+    init:
+      mode: always
