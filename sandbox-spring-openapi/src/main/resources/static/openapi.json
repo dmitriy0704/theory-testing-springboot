@@ -100,7 +100,6 @@
                       "nullable": false,
                       "example": "a396a088-172c-11ee-aa6f-4f6009552211"
                     },
-
                     "title": {
                       "type": "string",
                       "title": "Название товара",
@@ -115,6 +114,7 @@
                     }
                   },
                   "required": [
+                    "id",
                     "title"
                   ]
                 }

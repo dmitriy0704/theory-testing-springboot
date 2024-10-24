@@ -1,6 +1,10 @@
 package dev.folomkin.sandbox.controller;
 
 
+import com.atlassian.oai.validator.OpenApiInteractionValidator;
+import com.atlassian.oai.validator.whitelist.ValidationErrorsWhitelist;
+import com.atlassian.oai.validator.whitelist.rule.WhitelistRule;
+import com.atlassian.oai.validator.whitelist.rule.WhitelistRules;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -50,7 +54,6 @@ class ProductsRestControllerIT {
                 );
     }
 
-
     @Test
     void createProduct_ReturnsResponseWithStatusCreated() throws Exception {
         // given
@@ -58,10 +61,11 @@ class ProductsRestControllerIT {
                 .contentType("application/vnd.eselpo.catalogue.new-product-payload.v1+json")
                 .content("""
                         {
-                          "title": "Молоко, 3,2%, 1 литр",
-                          "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
+                            "title": "Молоко, 3,2%, 1 литр",
+                            "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
                         }
                         """);
+
         // when
         this.mockMvc.perform(requestBuilder)
                 // then
@@ -80,7 +84,6 @@ class ProductsRestControllerIT {
                 );
     }
 
-
     @Test
     void createProduct_PayloadIsInvalid_ReturnsResponseWithStatusCreated() throws Exception {
         // given
@@ -88,16 +91,22 @@ class ProductsRestControllerIT {
                 .contentType("application/vnd.eselpo.catalogue.new-product-payload.v1+json")
                 .content("""
                         {
-                          "title": "Молоко, 3,2%, 1 литр",
-                          "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
+                            "title": null,
+                            "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
                         }
                         """);
+
         // when
         this.mockMvc.perform(requestBuilder)
                 // then
                 .andExpectAll(
                         status().isBadRequest(),
-                        openApi().isValid("static/openapi.json")
+                        openApi().isValid(OpenApiInteractionValidator.createFor("static/openapi.json")
+                                .withWhitelist(ValidationErrorsWhitelist.create()
+                                        .withRule("Ignoring null title",
+                                                WhitelistRules
+                                                        .messageHasKey("validation.request.body.schema.type")))
+                                .build())
                 );
     }
 }
