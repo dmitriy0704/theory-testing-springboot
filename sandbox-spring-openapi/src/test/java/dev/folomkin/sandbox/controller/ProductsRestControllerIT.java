@@ -8,8 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import org.springframework.http.HttpHeaders;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static com.atlassian.oai.validator.mockmvc.OpenApiValidationMatchers.openApi;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,8 +51,53 @@ class ProductsRestControllerIT {
     }
 
 
+    @Test
+    void createProduct_ReturnsResponseWithStatusCreated() throws Exception {
+        // given
+        var requestBuilder = post("/api/catalogue/products")
+                .contentType("application/vnd.eselpo.catalogue.new-product-payload.v1+json")
+                .content("""
+                        {
+                          "title": "Молоко, 3,2%, 1 литр",
+                          "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
+                        }
+                        """);
+        // when
+        this.mockMvc.perform(requestBuilder)
+                // then
+                .andExpectAll(
+                        status().isCreated(),
+                        openApi().isValid("static/openapi.json"),
+                        header().exists(HttpHeaders.LOCATION),
+                        content().contentTypeCompatibleWith("application/vnd.eselpo.catalogue.product.v1+json"),
+                        content().json("""
+                                {
+                                    "title": "Молоко, 3,2%, 1 литр",
+                                    "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
+                                }
+                                """),
+                        jsonPath("$.id").exists()
+                );
+    }
 
 
-
-
+    @Test
+    void createProduct_PayloadIsInvalid_ReturnsResponseWithStatusCreated() throws Exception {
+        // given
+        var requestBuilder = post("/api/catalogue/products")
+                .contentType("application/vnd.eselpo.catalogue.new-product-payload.v1+json")
+                .content("""
+                        {
+                          "title": "Молоко, 3,2%, 1 литр",
+                          "details": "Молоко с жирностью 3,2% в упаковке 1 литр"
+                        }
+                        """);
+        // when
+        this.mockMvc.perform(requestBuilder)
+                // then
+                .andExpectAll(
+                        status().isBadRequest(),
+                        openApi().isValid("static/openapi.json")
+                );
+    }
 }

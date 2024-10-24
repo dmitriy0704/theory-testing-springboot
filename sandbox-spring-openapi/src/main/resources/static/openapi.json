@@ -57,7 +57,7 @@
       "post": {
         "requestBody": {
           "content": {
-            "application/vnd.eselpo.catalogue.products.v1+json": {
+            "application/vnd.eselpo.catalogue.new-product-payload.v1+json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -90,10 +90,17 @@
               }
             },
             "content": {
-              "application/vnd.eselpo.catalogue.products.v1+json": {
+              "application/vnd.eselpo.catalogue.product.v1+json": {
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "id": {
+                      "type": "string",
+                      "title": "Идентификатор товара",
+                      "nullable": false,
+                      "example": "a396a088-172c-11ee-aa6f-4f6009552211"
+                    },
+
                     "title": {
                       "type": "string",
                       "title": "Название товара",
