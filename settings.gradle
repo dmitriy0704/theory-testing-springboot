@@ -1,2 +1,3 @@
 rootProject.name = 'theory-testing-springboot'
-include'sandbox-spring-openapi-mockmvc'
+include 'mockmvc-openapi'
+include 'mockmvc-testcontainers'

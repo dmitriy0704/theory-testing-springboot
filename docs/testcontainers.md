@@ -361,7 +361,6 @@ spring:
 Теперь можно создавать контейнеры в тестах:
 
 ```java
-
 @SpringBootTest
 @Testcontainers
 class SandboxTest {
@@ -394,7 +393,6 @@ class SandboxTest {
 зависимость spring-boot-testcontainers:
 
 ```xml
-
 <project>
     <!-- Прочие настройки -->
     <dependencies>
@@ -412,7 +410,6 @@ class SandboxTest {
 контейнере при помощи аннотации @ServiceConnection:
 
 ```java
-
 @SpringBootTest
 @Testcontainers
 class SandboxTest {
@@ -437,7 +434,6 @@ class SandboxTest {
 принимающий аргумент типа DynamicPropertyRegistry:
 
 ```java
-
 @SpringBootTest
 @Testcontainers
 class SandboxTest {
@@ -480,7 +476,6 @@ class SandboxTest {
 класс-конфигурацию:
 
 ```java
-
 @TestConfiguration(proxyBeanMethods = false)
 public class SandboxConfiguration {
 
