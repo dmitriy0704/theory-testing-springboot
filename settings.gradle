@@ -1,3 +1,5 @@
 rootProject.name = 'theory-testing-springboot'
+include 'mockmvc-demo'
 include 'mockmvc-openapi'
 include 'mockmvc-testcontainers'
+
