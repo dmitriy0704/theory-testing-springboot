@@ -1,7 +1,6 @@
-package dev.folomkin.mockmvcdemo;
+package dev.folomkin.mockito.web_demo;
 
 
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

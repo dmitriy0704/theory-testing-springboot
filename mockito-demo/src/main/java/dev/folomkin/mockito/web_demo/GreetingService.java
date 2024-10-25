@@ -1,4 +1,4 @@
-package dev.folomkin.mockmvcdemo;
+package dev.folomkin.mockito.web_demo;
 
 
 import org.springframework.stereotype.Service;
