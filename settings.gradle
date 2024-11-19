@@ -3,4 +3,5 @@ include 'mockito-demo'
 include 'mockmvc-demo'
 include 'mockmvc-openapi'
 include 'mockmvc-testcontainers'
+include 'junit-simple'
 
